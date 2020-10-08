@@ -1,0 +1,37 @@
+show dbs
+use Student
+db.createCollection("details")
+db.details.insert({_id: 1,name: "Bharath kumar", RollNo: 10, Age: 22, ContactNo: 9876543210, EmailId: "a@g.com"})
+db.details.insert({_id: 2,name: "ABC", RollNo: 11, Age: 25, ContactNo: 7981295698, EmailId: "b@h.com"})
+db.details.insert({_id: 3,name: "XYZ", RollNo: 15, Age: 28, ContactNo: 9955784126, EmailId: "c@d.com"})
+db.details.find().pretty()
+db.details.update({RollNo: 10},{$set:{EmailId : "ayush@gmail.com"}})
+db.details.find().pretty()
+db.details.replaceOne({RollNo: 11}, {_id: 2,name: "FEM",Age: 25, ContactNo: 7981295698,EmailId:"b@h.com"})
+db.details.find().pretty()
+db.createCollection("HostelDeatails")
+db.HostelDetails.drop()
+show collections
+
+
+
+use Database
+db.createCollection("Customer")
+db.customer.insert({cust_id:1,acc_bal:1500,acc_type:"z"})
+db.customer.insert({cust_id:2,acc_bal:1800,acc_type:"a"})
+db.customer.insert({cust_id:1,acc_bal:2500,acc_type:"z"})
+db.customer.insert({cust_id:2,acc_bal:1500,acc_type:"a"})
+db.customer.insert({cust_id:1,acc_bal:5500,acc_type:"z"})
+db.customer.find().pretty()
+db.customer.find({acc_bal:{$gt:1200}, acc_type:"z"})
+db.createCollection("extra")
+db.extra.drop()
+db.customer.aggregate([
+    {
+        $group: {
+            _id: "$cust_id",
+            min_bal: {$min: "$acc_bal"},
+            max_bal: {$max: "$acc_bal"}
+        }
+    }
+])
